@@ -1,0 +1,6 @@
+.env
+package-lock.json
+node_modules/*
+dist/*
+public/assets/scripts/*
+public/assets/stylesheets/*

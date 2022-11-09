@@ -1,0 +1,54 @@
+{
+    "server": "dist/app.js",
+    "source": "./",
+    "ignore": [
+        "dev-tools",
+        "public",
+        "node_modules",
+        "dist",
+        "package-lock.json",
+        "package.json",
+        "tsconfig.json",
+        "webpack.config.js"
+    ],
+    "serverSource": "./src",
+    "clientSource": "./src/client/",
+    "serverDestination": "./dist",
+    "clientDestination": "./public/assets/scripts/",
+    "stylesheetSource": "src/stylesheets",
+    "stylesheetDestination": "public/assets/stylesheets",
+    "extensionTriggers": {
+        ".json": {
+            "toDo": "void",
+            "resetNode": true
+        },
+        ".env": {
+            "toDo": "void",
+            "resetNode": true
+        },
+        ".js": {
+            "toDo": "compileTS",
+            "resetNode": true
+        },
+        ".ts": {
+            "toDo": "compileTS",
+            "resetNode": true
+        },
+        ".mts": {
+            "toDo": "compileTS",
+            "resetNode": true
+        },
+        ".mjs": {
+            "toDo": "compileTS",
+            "resetNode": true
+        },
+        ".scss": {
+            "toDo": "compileSASS",
+            "resetNode": false
+        },
+        ".sass": {
+            "toDo": "compileSASS",
+            "resetNode": false
+        }
+    }
+}

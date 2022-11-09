@@ -1,0 +1,52 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+body {
+    background-color: black;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#username {
+    color: black;
+    background-color: white;
+    margin: 5px;
+    padding: 2px;
+    border: none;
+    min-width: 200px;
+    width: calc(100% - 36px);
+    height: 20px;
+}
+textarea {
+    color: black;
+    background-color: white;
+    resize: none;
+    border: none;
+    white-space: pre;
+    margin: 5px;
+    padding: 2px;
+    min-width: 300px;
+    width: calc(100% - 36px);
+}
+textarea:focus {
+    outline: none;
+}
+.room {
+    color: black;
+    background-color: white;
+    min-width: 300px;
+    width: calc(100% - 14px);
+    min-height: 150px;
+    max-height: 90vh;
+    margin: 5px;
+    padding: 2px;
+}
+.gotMsg {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
