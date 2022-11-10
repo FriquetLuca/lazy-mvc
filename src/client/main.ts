@@ -1,19 +1,20 @@
-import { LazyClient } from "lazy-toolbox";
+import { LazyClient } from "@friquet-luca/lazy-portable";
 
 const txtAreaManager = (sender: (packet: string, data: any) => void) => {
-    const txtArea = document.querySelector('.userMsg');
-    txtArea?.addEventListener('keydown', (e: Event) => {
+    const txtArea = <HTMLTextAreaElement>document.querySelector('.userMsg');
+    txtArea.addEventListener('keydown', (e: Event) => {
         const event = e as KeyboardEvent;
         if(event.key === "Enter") {
             if(!event.shiftKey) {
                 event.preventDefault();
-                let checkAuthor = document.querySelector('#username')?.getAttribute('value');
+                let checkAuthor = (<HTMLInputElement>document.querySelector('#username')).value;
                 checkAuthor = checkAuthor !== "" ? checkAuthor : "Anonymous";
-                sender('message', {
+                const response = {
                     author: checkAuthor,
-                    msg: txtArea?.getAttribute('value')
-                });
-                txtArea?.setAttribute('value', '');
+                    msg: txtArea.value
+                };
+                sender('message', response);
+                txtArea.value = '';
             }
         }
     });
@@ -30,7 +31,7 @@ clientUser.registerJSONReciever({
         container.classList.add('gotMsg');
         container.innerHTML = ` <div><p>${data.author}</p></div>
                                 <div><p>${data.msg}</p></div> `;
-        const room = document.querySelector('.room');
-        room?.appendChild(container);
+        const room = <HTMLDivElement>document.querySelector('.room');
+        room.appendChild(container);
     }
 });

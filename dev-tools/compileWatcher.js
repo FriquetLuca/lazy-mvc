@@ -1,4 +1,5 @@
-const { LazyWatcher, LazyFS, LazyEncapProcess, dateLogMS } = require('lazy-toolbox');
+const { LazyWatcher, LazyFS, LazyEncapProcess } = require('lazy-toolbox');
+const { dateLogMS } = require('@friquet-luca/lazy-portable');
 const fs = require('fs');
 const path = require('path');
 const util = require('util');
@@ -83,7 +84,7 @@ const watchFn = async (events) => {
             if(excluded(path.relative(_ROOT, event.file), settings.ignore)) {
                 continue; // Let's go next iteration
             }
-            const fileExt = path.extname(event.file);
+            let fileExt = path.extname(event.file);
             if(fileExt === '') {
                 fileExt = path.basename(event.file);
             }
@@ -133,6 +134,7 @@ const startProgram = async () => {
     await eventTriggers["compileSASS"].execute();
     clientCompile = false;
     serverCompile = false;
+    projectWatcher.skipChanges();
     // Start the server then start the dev watch
     newNodeProcess.start();
     projectWatcher.watchFiles(watchFn);
