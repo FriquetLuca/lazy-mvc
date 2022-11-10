@@ -12,9 +12,10 @@
   "author": "Friquet Luca",
   "license": "ISC",
   "dependencies": {
-    "@friquet-luca/lazy-portable": "^1.0.0",
+    "@friquet-luca/lazy-portable": "^1.0.2",
+    "@friquet-luca/lazy-shared": "^1.0.0",
     "dotenv": "^16.0.3",
-    "lazy-toolbox": "^1.1.5",
+    "lazy-toolbox": "^1.2.0",
     "mysql": "^2.18.1",
     "node": "^14.21.0",
     "node-html-parser": "^6.1.1"
