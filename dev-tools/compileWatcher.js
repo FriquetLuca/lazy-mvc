@@ -1,5 +1,5 @@
 const { LazyWatcher, LazyFS, LazyEncapProcess } = require('lazy-toolbox');
-const { dateLogMS } = require('@friquet-luca/lazy-portable');
+const { dateLogMS } = require('@lazy-toolbox/portable');
 const fs = require('fs');
 const path = require('path');
 const util = require('util');
@@ -80,12 +80,13 @@ const watchFn = async (events) => {
         serverCompile = false;
         // Check specific trigger files
         for(let event of events) {
+            console.log(`Event: ${event} !`);
             // It's a path to ignore
             if(excluded(path.relative(_ROOT, event.file), settings.ignore)) {
                 continue; // Let's go next iteration
             }
             let fileExt = path.extname(event.file);
-            if(fileExt === '') {
+            if(path.basename(event.file)[0] === '.') {
                 fileExt = path.basename(event.file);
             }
             // TS is special handled..

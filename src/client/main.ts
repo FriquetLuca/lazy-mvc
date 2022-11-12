@@ -1,5 +1,4 @@
-import { LazyClient } from "@friquet-luca/lazy-portable";
-
+import {connectSocket} from './socketClient/socketClient';
 const txtAreaManager = (sender: (packet: string, data: any) => void) => {
     const txtArea = <HTMLTextAreaElement>document.querySelector('.userMsg');
     txtArea.addEventListener('keydown', (e: Event) => {
@@ -20,7 +19,7 @@ const txtAreaManager = (sender: (packet: string, data: any) => void) => {
     });
 };
 
-const clientUser = new LazyClient("127.0.0.1", 8080);
+const clientUser = connectSocket();
 clientUser.registerJSONSender([
     txtAreaManager
 ]);

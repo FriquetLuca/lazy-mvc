@@ -1,4 +1,4 @@
-import { LazySocket, LazyRouter } from "lazy-toolbox";
+import { LazySocket, LazyRouter, LazyNetList } from "lazy-toolbox";
 import path from "path";
 import dotenv from "dotenv";
 class App {
@@ -6,6 +6,11 @@ class App {
     private server: LazySocket;
     public static root: string = "";
     constructor() {
+        console.log("Network list:");
+        const ipv4s = LazyNetList.IPv4();
+        for(let ipv4 of ipv4s) {
+            console.log(ipv4);
+        }
         // Set the app root directory name
         App.root = __dirname;
         // Load .env file into process.env
@@ -27,8 +32,8 @@ class App {
     public async start(): Promise<void> {
         // Load all assets
         await this.router.loadAssets();
-        // Load all middleware
-        await this.router.registerPaths('./middleware');
+        // Load all routes
+        await this.router.registerPaths('./routes');
         // Start all socket connections
         this.server.connect();
         // Start the server
