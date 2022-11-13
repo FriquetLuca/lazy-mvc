@@ -1,4 +1,5 @@
 import { LazySocket, LazyRouter, LazyNetList } from "lazy-toolbox";
+import { dateLogMS } from "@lazy-toolbox/portable";
 import path from "path";
 import dotenv from "dotenv";
 class App {
@@ -6,10 +7,10 @@ class App {
     private server: LazySocket;
     public static root: string = "";
     constructor() {
-        console.log("Network list:");
+        console.log(dateLogMS("Network list:"));
         const ipv4s = LazyNetList.IPv4();
         for(let ipv4 of ipv4s) {
-            console.log(ipv4);
+            console.log(dateLogMS(ipv4));
         }
         // Set the app root directory name
         App.root = __dirname;
@@ -40,6 +41,5 @@ class App {
         this.router.start();
     }
 }
-
 const app = new App();
 app.start();

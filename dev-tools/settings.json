@@ -1,4 +1,5 @@
 {
+    "processArgs": ["node"],
     "server": "dist/app.js",
     "source": "./",
     "ignore": [
