@@ -25,9 +25,9 @@
   "license": "ISC",
   "dependencies": {
     "@lazy-toolbox/client": "^0.0.0",
-    "@lazy-toolbox/portable": "^0.0.0",
+    "@lazy-toolbox/portable": "^0.0.1",
     "dotenv": "^16.0.3",
-    "lazy-toolbox": "^1.3.5",
+    "lazy-toolbox": "^1.3.7",
     "mysql": "^2.18.1",
     "node": "^14.21.0",
     "node-html-parser": "^6.1.1"
