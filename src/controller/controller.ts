@@ -1,37 +1,10 @@
-import fs from "fs";
 import path from 'path';
 import { parse } from 'node-html-parser';
-import util from 'util';
-import mysql from 'mysql';
+import { LazyFS } from "lazy-toolbox";
 export abstract class Controller {
     protected db: any;
     constructor(db: any) {
         this.db = db;
-    }
-    protected static makeMySQLDb(config: any) {
-        const connection = mysql.createConnection( config );
-        return {
-            query( sql: string | mysql.QueryOptions) {
-                return util.promisify(connection.query)
-                    .call(connection, sql);
-            },
-            close() {
-                return util.promisify(connection.end)
-                    .call(connection);
-            },
-            beginTransaction() {
-                return util.promisify(connection.beginTransaction)
-                    .call(connection);
-            },
-            commit() {
-                return util.promisify(connection.commit)
-                    .call(connection);
-            },
-            rollback() {
-                return util.promisify(connection.rollback)
-                    .call(connection);
-            }
-        };
     }
     protected static mapNumber(supposedNumber: any, defaultValue: number) {
         let result = defaultValue;
@@ -47,17 +20,20 @@ export abstract class Controller {
         }
         return result;
     }
-    protected static getView(viewPath: string): string {
-        return fs.readFileSync(path.join(__dirname, '../../public/views/', viewPath)).toString();
+    protected static async getView(viewPath: string): Promise<string> {
+        const getFile = await LazyFS.readFile(path.join(__dirname, '../../public/views/', viewPath));
+        return getFile.toString();
     }
     protected static async view(provided: {viewPath:string, request:any, reply:any, includes?: {[viewName: string]: string} }, datas: {[propertyName: string]: string} = {}): Promise<any> {
-        const document = parse(Controller.getView(provided.viewPath));
+        const document = parse(await Controller.getView(provided.viewPath));
         for(let viewName in provided.includes) {
             const viewPath = provided.includes[viewName];
             const dataElements = document.querySelectorAll(`insert[view=${viewName}]`);
-            const actualView = Controller.getView(viewPath);
-            for(let dataElement of dataElements) {
-                dataElement.replaceWith(actualView);
+            if(dataElements.length > 0) {
+                const actualView = await Controller.getView(viewPath);
+                for(let dataElement of dataElements) {
+                    dataElement.replaceWith(actualView);
+                }
             }
         }
         for(let dataName in datas) {

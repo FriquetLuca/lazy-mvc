@@ -1,9 +1,10 @@
-const { LazyWatcher, LazyFS, LazyEncapProcess } = require('lazy-toolbox');
-const { dateLogMS } = require('@friquet-luca/lazy-shared');
+const { LazyWatcher, LazyEncapProcess } = require('lazy-toolbox');
+const { dateLogMS } = require('@lazy-toolbox/portable');
 const fs = require('fs');
 const path = require('path');
 const util = require('util');
-const exec = util.promisify(require('child_process').exec);
+const childProcess = require('child_process');
+const exec = util.promisify(childProcess.exec);
 
 const settings = JSON.parse(fs.readFileSync(path.join(__dirname, './settings.json'), { encoding: 'utf8' }));
 
@@ -14,17 +15,16 @@ let clientCompile = false;
 let serverCompile = false;
 const _ROOT = path.join(__dirname, "../");
 
-const serverRoot = path.join(_ROOT, settings.server);
 const serverPath = path.join(_ROOT, settings.serverSource);
 const clientPath = path.join(_ROOT, settings.clientSource);
-const clientDest = path.join(_ROOT, settings.clientDestination);
 const projectWatcher = new LazyWatcher(path.join(_ROOT, settings.source), 100);
-const newNodeProcess = new LazyEncapProcess(_ROOT, serverRoot);
+const newNodeProcess = new LazyEncapProcess(_ROOT, settings.server, settings.processArgs);
 const compile = async (cmd) => {
     try {
         await exec(cmd);
     } catch(err) { }    
 }
+
 const eventTriggers = {
     "void": {
         triggered: false,
@@ -35,14 +35,12 @@ const eventTriggers = {
         execute: async () => {
             if(clientCompile) {
                 console.log(dateLogMS("Start compiling Client TypeScript, please wait..."));
-                LazyFS.deleteDirectory(clientDest);
-                await compile('webpack');
+                await compile('(npm run delClient || webpack) && webpack');
                 console.log(dateLogMS("Client TypeScript has been compiled!"));
             }
             if(serverCompile) {
                 console.log(dateLogMS("Start compiling Server TypeScript, please wait..."));
-                LazyFS.deleteDirectory(path.join(_ROOT, settings.serverDestination));
-                await compile('tsc');
+                await compile('(npm run delDist || tsc) && tsc');
                 console.log(dateLogMS("Server TypeScript has been compiled!"));
             }
         }
@@ -51,8 +49,7 @@ const eventTriggers = {
         triggered: false,
         execute: async () => {
             console.log(dateLogMS("Start compiling stylesheets, please wait..."));
-            LazyFS.deleteDirectory(path.join(_ROOT, settings.stylesheetDestination));
-            await compile(`sass ${settings.stylesheetSource}:${settings.stylesheetDestination}`);
+            await compile('(npm run delSass || npm run repackCSS) && npm run repackCSS');
             console.log(dateLogMS("All stylesheets have been compiled!"));
         }
     }
@@ -84,8 +81,9 @@ const watchFn = async (events) => {
             if(excluded(path.relative(_ROOT, event.file), settings.ignore)) {
                 continue; // Let's go next iteration
             }
+            console.log(`Event: ${JSON.stringify(event)} !`);
             let fileExt = path.extname(event.file);
-            if(fileExt === '') {
+            if(path.basename(event.file)[0] === '.') {
                 fileExt = path.basename(event.file);
             }
             // TS is special handled..
