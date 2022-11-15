@@ -1,5 +1,5 @@
 const { LazyWatcher, LazyFS, LazyEncapProcess } = require('lazy-toolbox');
-const { dateLogMS } = require('@friquet-luca/lazy-portable');
+const { dateLogMS } = require('@friquet-luca/lazy-shared');
 const fs = require('fs');
 const path = require('path');
 const util = require('util');

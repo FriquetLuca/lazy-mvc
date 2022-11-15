@@ -24,7 +24,6 @@ const clientUser = new LazyClient("127.0.0.1", 8080);
 clientUser.registerJSONSender([
     txtAreaManager
 ]);
-
 clientUser.registerJSONReciever({
     'message': (data) => {
         const container = document.createElement('div');
