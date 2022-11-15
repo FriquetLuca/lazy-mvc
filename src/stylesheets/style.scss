@@ -1,10 +1,9 @@
 * {
     padding: 0;
     margin: 0;
-    
 }
-body {
-    background-color: black;
+html {
+    background-color: rgb(20, 20, 20);
 }
 form {
     display: flex;
@@ -13,8 +12,8 @@ form {
     align-items: center;
 }
 #username {
-    color: black;
-    background-color: white;
+    color: rgb(20, 20, 20);
+    background-color: rgb(220, 220, 220);
     margin: 5px;
     padding: 2px;
     border: none;
@@ -23,8 +22,8 @@ form {
     height: 20px;
 }
 textarea {
-    color: black;
-    background-color: white;
+    color: rgb(20, 20, 20);
+    background-color: rgb(220, 220, 220);
     resize: none;
     border: none;
     white-space: pre;
@@ -37,14 +36,16 @@ textarea:focus {
     outline: none;
 }
 .room {
-    color: black;
-    background-color: white;
+    color: rgb(20, 20, 20);
+    background-color: rgb(220, 220, 220);
     min-width: 300px;
     width: calc(100% - 14px);
-    min-height: 150px;
-    max-height: 90vh;
+    max-width: calc(100% - 14px);
+    height: 70vh;
     margin: 5px;
     padding: 2px;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 .gotMsg {
     display: flex;

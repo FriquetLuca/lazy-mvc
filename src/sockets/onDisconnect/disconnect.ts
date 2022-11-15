@@ -1,5 +1,7 @@
 import { LazySocket } from "lazy-toolbox";
-import WebSocket from 'ws';
-module.exports = (server: LazySocket, socket: WebSocket.WebSocket, db: any) => {
-    console.log("Disconnect module !");
+module.exports = (server: LazySocket, clientID: number, db: any) => {
+    const liveDB = server.getData('liveDB');
+    const userMap = server.getData('userMap');
+    delete liveDB[userMap[clientID]];
+    delete userMap[clientID];
 };

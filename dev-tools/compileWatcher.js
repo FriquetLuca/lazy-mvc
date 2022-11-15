@@ -49,7 +49,7 @@ const eventTriggers = {
         triggered: false,
         execute: async () => {
             console.log(dateLogMS("Start compiling stylesheets, please wait..."));
-            await compile('(npm run delSass || npm run repackCSS) && npm run repackCSS');
+            await compile('(npm run delSass || npm run packCSS) && npm run packCSS');
             console.log(dateLogMS("All stylesheets have been compiled!"));
         }
     }
