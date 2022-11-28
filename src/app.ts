@@ -34,7 +34,7 @@ class App {
         // Load all assets
         await this.router.loadAssets();
         // Load all routes
-        await this.router.registerPaths('./routes');
+        await this.router.registerPaths('./routes', '../public/views');
         // Start all socket connections
         this.server.connect();
         // Start the server

@@ -1,6 +1,5 @@
-import { LazySocket } from "lazy-toolbox";
-import WebSocket from 'ws';
-module.exports = (server: LazySocket, socket: WebSocket.WebSocket, data: any, db: any, clientId: number) => {
+import { LazyClientSocket, LazySocket } from "lazy-toolbox";
+module.exports = (server: LazySocket, socket: LazyClientSocket, data: any, db: any) => {
     const actualTime = new Date();
     let hours = `${actualTime.getHours()}`;
     hours = hours.length == 1 ? `0${hours}` : hours;

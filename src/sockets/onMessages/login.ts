@@ -1,6 +1,5 @@
-import { LazySocket } from "lazy-toolbox";
-import WebSocket from 'ws';
-module.exports = (server: LazySocket, socket: WebSocket.WebSocket, data: any, db: any, clientId: number) => {
+import { LazyClientSocket, LazySocket } from "lazy-toolbox";
+module.exports = (server: LazySocket, client: LazyClientSocket, data: any, db: any) => {
     const socketLiveDB = server.getData('liveDB');
     let available = true;
     if(socketLiveDB !== undefined) {
@@ -8,18 +7,20 @@ module.exports = (server: LazySocket, socket: WebSocket.WebSocket, data: any, db
         if(user !== undefined) {
             available = false;
         } else {
-            socketLiveDB[data.username] = { id: clientId };
+            socketLiveDB[data.username] = { id: client.ID };
             const maps = server.getData('userMap');
-            maps[clientId] = data.username;
+            maps[client.ID] = data.username;
         }
     } else {
         const newDB: {[label: string]: any} = {};
-        newDB[data.username] = { id: clientId };
+        newDB[data.username] = { id: client.ID };
         server.setData('liveDB', newDB);
 
         const newMaps: {[label: number]: any} = {};
-        newMaps[clientId] = data.username;
+        newMaps[client.ID] = data.username;
         server.setData('userMap', newMaps);
     }
-    LazySocket.sendToClient('login', socket, { isAvailable: available });
+    for(let socket of client.Sockets) {
+        LazySocket.sendToClient('login', socket, { isAvailable: available });
+    }
 };

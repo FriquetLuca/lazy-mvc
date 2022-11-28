@@ -4,7 +4,7 @@
     "source": "./",
     "ignore": [
         "dev-tools",
-        "public",
+        "public/assets",
         "node_modules",
         "dist",
         "package-lock.json",
@@ -14,17 +14,17 @@
     ],
     "serverSource": "./src",
     "clientSource": "./src/client/",
-    "serverDestination": "./dist",
-    "clientDestination": "./public/assets/scripts/",
-    "stylesheetSource": "src/stylesheets",
-    "stylesheetDestination": "public/assets/stylesheets",
     "extensionTriggers": {
         ".json": {
             "toDo": "void",
             "resetNode": true
         },
-        ".env": {
+        ".html": {
             "toDo": "void",
+            "resetNode": true
+        },
+        ".env": {
+            "toDo": "compileSC",
             "resetNode": true
         },
         ".js": {
@@ -51,5 +51,13 @@
             "toDo": "compileSASS",
             "resetNode": false
         }
+    },
+    "commands": {
+        "compileSC": "npm run webpack && npm run tsc",
+        "compileTS": {
+            "client": "npm run webpack",
+            "server": "npm run tsc"
+        },
+        "compileSASS": "npm run sass"
     }
 }

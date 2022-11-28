@@ -28,6 +28,7 @@ const txtAreaManager = (sender: (packet: string, data: any) => void) => {
                     author: actualUser.username,
                     msg: txtArea.value
                 };
+                console.log("You send: " + response.msg);
                 sender('message', response);
                 txtArea.value = '';
             }
@@ -55,11 +56,14 @@ const login = (sender: (packet: string, data: any) => void) => {
 };
 
 const clientUser = connectSocket();
-clientUser.registerJSONSender([
+clientUser.senders(
     txtAreaManager,
     login
-]);
-clientUser.registerJSONReciever({
+);
+clientUser.hook('message', (obj: any, websocket: WebSocket) => {
+    console.log(`obj is: ${JSON.stringify(obj)}`)
+});
+clientUser.hookObject({
     'message': (data) => {
         const container = document.createElement('div');
         container.classList.add('gotMsg');
@@ -80,3 +84,4 @@ clientUser.registerJSONReciever({
         }
     }
 });
+clientUser.start();

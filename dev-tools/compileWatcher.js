@@ -28,19 +28,27 @@ const compile = async (cmd) => {
 const eventTriggers = {
     "void": {
         triggered: false,
-        execute: async () => {}
+        execute: async () => { console.log(dateLogMS("Void event happening...")); }
+    },
+    "compileSC": {
+        triggered: false,
+        execute: async () => {
+            console.log(dateLogMS("Start compiling, please wait..."));
+            await compile(settings.commands.compileSC);
+            console.log(dateLogMS("Client and server has been compiled!"));
+        }
     },
     "compileTS": {
         triggered: false,
         execute: async () => {
             if(clientCompile) {
                 console.log(dateLogMS("Start compiling Client TypeScript, please wait..."));
-                await compile('(npm run delClient || webpack) && webpack');
+                await compile(settings.commands.compileTS.client);
                 console.log(dateLogMS("Client TypeScript has been compiled!"));
             }
             if(serverCompile) {
                 console.log(dateLogMS("Start compiling Server TypeScript, please wait..."));
-                await compile('(npm run delDist || tsc) && tsc');
+                await compile(settings.commands.compileTS.server);
                 console.log(dateLogMS("Server TypeScript has been compiled!"));
             }
         }
@@ -49,7 +57,7 @@ const eventTriggers = {
         triggered: false,
         execute: async () => {
             console.log(dateLogMS("Start compiling stylesheets, please wait..."));
-            await compile('(npm run delSass || npm run packCSS) && npm run packCSS');
+            await compile(settings.commands.compileSASS);
             console.log(dateLogMS("All stylesheets have been compiled!"));
         }
     }
@@ -81,9 +89,8 @@ const watchFn = async (events) => {
             if(excluded(path.relative(_ROOT, event.file), settings.ignore)) {
                 continue; // Let's go next iteration
             }
-            console.log(`Event: ${JSON.stringify(event)} !`);
             let fileExt = path.extname(event.file);
-            if(path.basename(event.file)[0] === '.') {
+            if(fileExt === '') {
                 fileExt = path.basename(event.file);
             }
             // TS is special handled..
@@ -100,11 +107,11 @@ const watchFn = async (events) => {
             }
             const extChanged = extTriggers[fileExt];
             if(extChanged) { // Check if it's an handled extension
-                restartNode |= extChanged.resetNode;
+                restartNode |= extChanged.resetNode ? true : false;
                 eventTriggers[extChanged.toDo].triggered = true; // Set the trigger for that extension event
             }
         }
-        if(restartNode && ((clientCompile && serverCompile) || (!clientCompile && serverCompile))) {
+        if(restartNode) {
             newNodeProcess.stop();
         }
         // Execute all triggers in order
@@ -115,7 +122,7 @@ const watchFn = async (events) => {
                 actualEvent.triggered = false;
             }
         }
-        if(restartNode && ((clientCompile && serverCompile) || (!clientCompile && serverCompile))) {
+        if(restartNode) {
             newNodeProcess.start();
         }
         projectWatcher.watchFiles(watchFn);
@@ -123,16 +130,6 @@ const watchFn = async (events) => {
 }
 const startProgram = async () => {
     console.log(dateLogMS("Development mode started."));
-    console.log(dateLogMS("You can quit the development mode at any time with CTRL + C on the terminal."));
-    console.log(dateLogMS("Creating project, please wait..."));
-    // Force a compilation at start (because there could have been changes before so...)
-    clientCompile = true;
-    serverCompile = true;
-    await eventTriggers["compileTS"].execute();
-    await eventTriggers["compileSASS"].execute();
-    clientCompile = false;
-    serverCompile = false;
-    projectWatcher.skipChanges();
     // Start the server then start the dev watch
     newNodeProcess.start();
     projectWatcher.watchFiles(watchFn);

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <insert view="categHead">
-            <div>Bonjour, je suis un commentaire.</div>
+        <insert view="category/categoryHead">
+            On importe notre head en suivant le chemin relatif des views.
         </insert>
     </head>
     <body>
         <h1>Category, la page <insert data="getPage"><div>Bonjour, je suis un autre commentaire.</div></insert></h1>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Porro, ad quam. Voluptatibus, totam! Tenetur inventore, ab quia cum soluta sunt magnam quas enim ipsum alias optio aliquam animi nulla distinctio.</p>
+        <insert template="userCard" view="category/template" count="5"></insert>
         <div>C'était la page <insert data="getPage"><div>Bonjour, je suis un autre commentaire.</div></insert></div>
     </body>
 </html>
