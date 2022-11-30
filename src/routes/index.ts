@@ -10,5 +10,5 @@ module.exports = (route: string, fastify: any, router: LazyRouter, db: any) => {
         return reply.type('text/html').send(currentView);
     };
     fastify.get('/', index);
-    fastify.get(route, index);
+    fastify.get(route, index); // route = '/index'
 };

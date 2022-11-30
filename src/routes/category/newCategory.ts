@@ -1,5 +1,5 @@
 import { LazyRouter } from 'lazy-toolbox';
-import { LazyMapper } from '@lazy-toolbox/portable';
+import { LazyMapper, LazyMath } from '@lazy-toolbox/portable';
 module.exports = (route: string, fastify: any, router: LazyRouter, db: any) => {
     const dummyUsers = [ // Some dummy data for illustration purposes
         { name: "John", age: 28 },
@@ -15,7 +15,7 @@ module.exports = (route: string, fastify: any, router: LazyRouter, db: any) => {
     ];
     const controller = async (request: any, reply: any) => {
         /* DB handling example : 
-        const db = Controller.makeDb(this.db);
+        const db = PromiSQL.createConnection(this.db);
         try {
             const someRows = await db.query('SELECT * FROM some_table');
             // do something with someRows and otherRows
@@ -24,7 +24,17 @@ module.exports = (route: string, fastify: any, router: LazyRouter, db: any) => {
         } finally {
             await db.close();
         } */
-        const pageNumber = Math.max(1, LazyMapper.defaultNumber(request.params.nbr, 1));
+        const elementPerPage = 4;
+        // Max number of pages
+        let maxPages = Math.floor(dummyUsers.length / elementPerPage);
+        // Get what's left on pages
+        const userModElem = LazyMath.modulo(dummyUsers.length, elementPerPage);
+        // There's some elements left for sure
+        if(userModElem !== 0) {
+            maxPages += 1;
+        }
+        const pageNumber = Math.min(Math.max(1, LazyMapper.defaultNumber(request.params.nbr, 1)), maxPages);
+        const newCount = pageNumber == maxPages ? userModElem : elementPerPage;
         const currentView = router.view({
             viewPath: 'category/newCategory',
             request: request,
@@ -34,7 +44,7 @@ module.exports = (route: string, fastify: any, router: LazyRouter, db: any) => {
             },
             templates: {
                 'userCard': (i: number) => {
-                    const user = dummyUsers[(pageNumber - 1) * 2 + i];
+                    const user = dummyUsers[(pageNumber - 1) * elementPerPage + i];
                     return {
                         'username': user.name,
                         'age': user.age.toString()
@@ -42,7 +52,7 @@ module.exports = (route: string, fastify: any, router: LazyRouter, db: any) => {
                 }
             },
             overrideTemplateCount: {
-                'userCard': 5
+                'userCard': newCount
             }
         }, Boolean(process.env.RTR_ROUTES));
         return reply.type('text/html').send(currentView);
