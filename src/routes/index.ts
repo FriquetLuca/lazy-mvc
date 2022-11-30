@@ -1,6 +1,7 @@
 import { LazyRouter } from 'lazy-toolbox';
+import { FastifyReply, FastifyRequest } from 'fastify';
 module.exports = (route: string, fastify: any, router: LazyRouter, db: any) => {
-    const index = async (request: any, reply: any) => {
+    const index = async (request: FastifyRequest, reply: FastifyReply) => {
         const currentView = router.view({
             viewPath: 'index',
             request: request,

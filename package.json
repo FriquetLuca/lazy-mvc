@@ -21,10 +21,10 @@
   "license": "ISC",
   "browserslist": "last 100 versions",
   "dependencies": {
-    "@lazy-toolbox/client": "^0.0.7",
+    "@lazy-toolbox/client": "^0.0.8",
     "@lazy-toolbox/portable": "^0.0.2",
     "dotenv": "^16.0.3",
-    "lazy-toolbox": "^1.4.9",
+    "lazy-toolbox": "^1.4.10",
     "mysql": "^2.18.1",
     "node": "^14.21.0",
     "node-html-parser": "^6.1.1"
