@@ -2,59 +2,15 @@
     padding: 0;
     margin: 0;
 }
-@import './modal';
 html {
     background-color: rgb(20, 20, 20);
 }
-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+@import './design';
+.light {
+    color:rgb(20, 20, 20);
+    background-color: rgb(235, 235, 235);
 }
-#username {
-    color: rgb(20, 20, 20);
-    background-color: rgb(220, 220, 220);
-    margin: 5px;
-    padding: 2px;
-    border: none;
-    min-width: 200px;
-    width: calc(100% - 36px);
-    height: 20px;
-}
-textarea {
-    color: rgb(20, 20, 20);
-    background-color: rgb(220, 220, 220);
-    resize: none;
-    border: none;
-    white-space: pre;
-    margin: {
-        left: 5px;
-        right: 5px;
-        top: 3px;
-        bottom: 3px;
-    }
-    padding: 2px;
-    min-width: 300px;
-    width: calc(100% - 36px);
-}
-textarea:focus {
-    outline: none;
-}
-.room {
-    color: rgb(20, 20, 20);
-    background-color: rgb(220, 220, 220);
-    min-width: 300px;
-    width: calc(100% - 14px);
-    max-width: calc(100% - 14px);
-    height: 70vh;
-    margin: 5px;
-    padding: 2px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-}
-.gotMsg {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
+.dark {
+    color:rgb(235, 235, 235);
+    background-color: rgb(20, 20, 20);
 }

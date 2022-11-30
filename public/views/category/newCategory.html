@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="theme">
     <head>
         <insert view="category/categoryHead">
             On importe notre head en suivant le chemin relatif des views.
@@ -8,7 +8,7 @@
     <body>
         <h1>Category, la page <insert data="getPage"><div>Bonjour, je suis un autre commentaire.</div></insert></h1>
         <insert template="userCard" view="category/template" count="5"></insert>
-        <div>C'était la page <insert data="getPage"><div>Bonjour, je suis un autre commentaire.</div></insert></div>
+        <div>C'était la page <insert data="getPage"></insert>.</div>
         <h2>You're <insert data="authenticated"></insert>.</h2>
     </body>
 </html>
