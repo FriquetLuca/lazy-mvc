@@ -26,7 +26,7 @@ module.exports = [
         },
         optimization: {
             mergeDuplicateChunks: true, // Tells webpack to merge chunks which contain the same modules.
-            minimize: true, // Tell webpack to minimize the bundle using the TerserPlugin
+            //minimize: true, // Tell webpack to minimize the bundle using the TerserPlugin
             providedExports: true, // Tells webpack to figure out which exports are provided by modules to generate more efficient code for export * from ...
             removeAvailableModules: true, // Tells webpack to detect and remove modules from chunks when these modules are already included in all parents.
             usedExports: true, // <- remove unused function
@@ -57,7 +57,7 @@ module.exports = [
         },
         optimization: {
             mergeDuplicateChunks: true, // Tells webpack to merge chunks which contain the same modules.
-            minimize: true, // Tell webpack to minimize the bundle using the TerserPlugin
+            //minimize: true, // Tell webpack to minimize the bundle using the TerserPlugin
             providedExports: true, // Tells webpack to figure out which exports are provided by modules to generate more efficient code for export * from ...
             removeAvailableModules: true, // Tells webpack to detect and remove modules from chunks when these modules are already included in all parents.
             usedExports: true, // <- remove unused function

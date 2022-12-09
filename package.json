@@ -2,7 +2,7 @@
   "name": "lazy-mvc",
   "version": "1.0.0",
   "description": "A complete MVC server implemented with lazy-toolbox.",
-  "main": "app.js",
+  "main": "./dist/app.js",
   "scripts": {
     "_sass_step_create": "sass ./src/stylesheets:./public/stylesheets --no-source-map --style compressed",
     "_sass_step_fixed": "postcss public/stylesheets/ --dir ./public/assets/stylesheets/ --use autoprefixer",
@@ -15,27 +15,28 @@
     "ip": "node dev-tools/networkChecker.js",
     "dev": "node dev-tools/compileWatcher.js",
     "beginDev": "npm run update_toolbox && npm run build && npm run dev",
-    "build": "(rm -rf dist && rm -rf public/assets/scripts && rm -rf public/assets/stylesheets) && tsc && webpack && npm run _sass_step_compile"
+    "build": "(rm -rf dist && rm -rf public/assets/scripts && rm -rf public/assets/stylesheets) && tsc && webpack && npm run _sass_step_compile",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "keywords": [],
   "author": "Friquet Luca",
   "license": "ISC",
   "browserslist": "last 100 versions",
+  "homepage": "https://friquetluca.github.io/lazy-mvc/",
   "dependencies": {
-    "@lazy-toolbox/client": "^0.0.8",
-    "@lazy-toolbox/portable": "^0.0.2",
+    "@lazy-toolbox/client": "^0.0.9",
+    "@lazy-toolbox/portable": "^0.0.4",
     "dotenv": "^16.0.3",
-    "lazy-toolbox": "^1.4.10",
-    "mysql": "^2.18.1",
-    "node": "^14.21.0",
-    "node-html-parser": "^6.1.1"
+    "lazy-toolbox": "^1.4.11",
+    "node": "^14.21.0"
   },
   "devDependencies": {
-    "@types/mysql": "^2.15.21",
     "@types/node": "^18.11.9",
     "@types/ws": "^8.5.3",
     "autoprefixer": "^10.4.13",
     "dotenv-webpack": "^8.0.1",
+    "gh-pages": "^4.0.0",
     "postcss": "^8.4.19",
     "postcss-cli": "^10.0.0",
     "sass": "^1.56.1",

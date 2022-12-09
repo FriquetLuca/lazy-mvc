@@ -1,4 +1,12 @@
 {
+  "type": "commonjs",
+  "ts-node": {
+    "esm": true,
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node"
+    }
+  },
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,

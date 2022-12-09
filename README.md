@@ -39,19 +39,15 @@ Since this project is developped in parallel with `lazy-toolbox`, all changes in
 ### [Development](#development)
 The development pipeline was thoughtfuly crafted for an implementation that should be as lazy as possible to have all results directly.
 1. Global commands:
+    - `npm run ip`: Get your local ip to setup your `.env`.
     - `npm run build`: Build the project.
-    - `npm run start`: Run the server.
-    - `npm run dev`: Compile all files then run the project while also checking for changes in any files inside of `/src/`.
+    - `npm run start`: Run the server. (Fails if the server isn't compiled before using it)
+    - `npm run beginDev`: Update the `lazy-toolbox`, build the server, run it then watch for files to compile if needed.
+    - `npm run dev`: Run the server then watch for changes in files to compile if needed. (Fails if the server isn't compiled before using it)
 2. Specific commands:
-    - `npm run tsc`: Execute the operations in the following order:
-        1. Remove `dist` folder.
-        2. Compile all TypeScript files from `src` and export them into `dist` folder.
-    - `npm run webpack`: Execute the operations in the following order:
-        1. Remove `public/assets/scripts` folder.
-        2. Compile all TypeScript files from `src/client` and export them into `public/assets/scripts`.
-    - `npm run packCSS`: Execute the operations in the following order:
-        1. Remove `public/assets/stylesheets` folder.
-        2. Compile all `.sass` and `.scss` from `src/stylesheets` to `.css` files in `public/assets/stylesheets`.
+    - `npm run tsc`: Compile the server.
+    - `npm run webpack`: Compile the client from `src/client/main.ts` and `src/client/initialize.ts`.
+    - `npm run sass`: Compile all scss/sass stylesheets from `src/stylesheets/`.
 
 In case you have some problem with `lazy-toolbox`, it's possible that the version you've installed is deprecated. Use `npm run startDev` if you don't want to bother about having the last available version of `lazy-toolbox`. The command will update `lazy-toolbox` then run `npm run dev`.
 
@@ -60,9 +56,8 @@ In case you have some problem with `lazy-toolbox`, it's possible that the versio
 ### [src](#src)
 
 All scripts and stylesheets sources files are contained in this directory. 
-`src/client`: Directory containing the client scripts, repacked from `main.ts`.
+`src/client`: Directory containing the client scripts, repacked from `main.ts` and `initialize.ts`.
 `src/stylesheets`: Directory containing all stylesheets in `.sass` or `.scss` format.
-`src/database`: Directory containing all functions associated with the database used for the project.
 `src/routes`: Directory containing all routes and implement a controller to handle the backend logic.
 `src/controller`: Directory containing all controllers for `routes`.
 `src/sockets/onConnect`: Directory containing all functions to be executed when a client connect to a socket.
