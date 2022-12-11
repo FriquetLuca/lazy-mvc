@@ -1,6 +1,6 @@
 {
-    "processArgs": ["node"],
-    "server": "dist/app.js",
+    "processArgs": ["powershell", "ts-node"],
+    "server": "src/app.ts",
     "source": "./",
     "ignore": [
         "dev-tools",
@@ -12,6 +12,8 @@
         "tsconfig.json",
         "webpack.config.js"
     ],
+    "compileClient": true,
+    "compileServer": false,
     "serverSource": "./src",
     "clientSource": "./src/client/",
     "extensionTriggers": {
@@ -45,11 +47,11 @@
         },
         ".scss": {
             "toDo": "compileSASS",
-            "resetNode": false
+            "resetNode": true
         },
         ".sass": {
             "toDo": "compileSASS",
-            "resetNode": false
+            "resetNode": true
         }
     },
     "commands": {

@@ -15,9 +15,7 @@
     "ip": "node dev-tools/networkChecker.js",
     "dev": "node dev-tools/compileWatcher.js",
     "beginDev": "npm run update_toolbox && npm run build && npm run dev",
-    "build": "(rm -rf dist && rm -rf public/assets/scripts && rm -rf public/assets/stylesheets) && tsc && webpack && npm run _sass_step_compile",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "build": "(rm -rf dist && rm -rf public/assets/scripts && rm -rf public/assets/stylesheets) && tsc && webpack && npm run _sass_step_compile"
   },
   "keywords": [],
   "author": "Friquet Luca",
@@ -26,9 +24,9 @@
   "homepage": "https://friquetluca.github.io/lazy-mvc/",
   "dependencies": {
     "@lazy-toolbox/client": "^0.0.9",
-    "@lazy-toolbox/portable": "^0.0.4",
+    "@lazy-toolbox/portable": "^0.0.11",
     "dotenv": "^16.0.3",
-    "lazy-toolbox": "^1.4.11",
+    "lazy-toolbox": "^1.4.12",
     "node": "^14.21.0"
   },
   "devDependencies": {
@@ -36,11 +34,11 @@
     "@types/ws": "^8.5.3",
     "autoprefixer": "^10.4.13",
     "dotenv-webpack": "^8.0.1",
-    "gh-pages": "^4.0.0",
     "postcss": "^8.4.19",
     "postcss-cli": "^10.0.0",
     "sass": "^1.56.1",
     "ts-loader": "^9.4.1",
+    "ts-node": "^10.9.1",
     "typescript": "^4.8.4",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0"

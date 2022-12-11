@@ -18,7 +18,7 @@ const _ROOT = path.join(__dirname, "../");
 const serverPath = path.join(_ROOT, settings.serverSource);
 const clientPath = path.join(_ROOT, settings.clientSource);
 const projectWatcher = new LazyWatcher(path.join(_ROOT, settings.source), 100);
-const newNodeProcess = new LazyEncapProcess(_ROOT, settings.server, settings.processArgs);
+const newNodeProcess = new LazyEncapProcess(_ROOT, path.join(_ROOT, settings.server), settings.processArgs);
 const compile = async (cmd) => {
     try {
         await exec(cmd);
@@ -41,12 +41,12 @@ const eventTriggers = {
     "compileTS": {
         triggered: false,
         execute: async () => {
-            if(clientCompile) {
+            if(clientCompile && settings.compileClient) {
                 console.log(dateLogMS("Start compiling Client TypeScript, please wait..."));
                 await compile(settings.commands.compileTS.client);
                 console.log(dateLogMS("Client TypeScript has been compiled!"));
             }
-            if(serverCompile) {
+            if(serverCompile && settings.compileServer) {
                 console.log(dateLogMS("Start compiling Server TypeScript, please wait..."));
                 await compile(settings.commands.compileTS.server);
                 console.log(dateLogMS("Server TypeScript has been compiled!"));
@@ -112,7 +112,7 @@ const watchFn = async (events) => {
             }
         }
         if(restartNode) {
-            newNodeProcess.stop();
+            await newNodeProcess.stop();
         }
         // Execute all triggers in order
         for(let evTrig in eventTriggers) {
@@ -123,7 +123,7 @@ const watchFn = async (events) => {
             }
         }
         if(restartNode) {
-            newNodeProcess.start();
+            await newNodeProcess.start();
         }
         projectWatcher.watchFiles(watchFn);
     }
